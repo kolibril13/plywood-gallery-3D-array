@@ -1,55 +1,55 @@
 {
   "Numpy 3D Arrays": [
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_001_Header.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_001_Header.png",
       "celltype": "Header",
       "css": "border: 3px solid #ED6A5A;height: 150px; width: auto;",
       "code": "import matplotlib.pyplot as plt\nimport numpy as np\nimport scipy\nfrom skimage.morphology import ball, cube, octahedron\nfrom skimage import data\n\ndef plot_voxels(varray, ax=None, title=None, linewidth=0.8):\n    cmap = plt.get_cmap(\"YlGnBu\")\n\n    if ax == None:\n        fig = plt.figure(figsize=(16 / 2, 9 / 2))\n        ax = fig.add_subplot(1, 1, 1, projection=\"3d\")\n    ax.view_init(20, 200)\n    colors = cmap(varray)\n    ax.voxels(varray, facecolors=colors, edgecolor=\"black\", linewidth=linewidth)\n\n    ax.axis(\"off\")\n    if title != None:\n        ax.set_title(title, fontsize=30)\n\n\ndef structuring_element(array, structure, position=None, alignment_to_index=\"center\"):\n    \"\"\"Draw a structuring element.\n\n    Parameters\n    ----------\n    array: ndarray\n        An array where the structuring element will be placed.\n    structure: ndarray\n        A structuring element.\n    position: array_like, optional\n        The position of the structuring element in the output image.\n        When no position is given, the stucuting element will be drawn in the center of the array.\n        If one or more array axis haven an even count of total elements and therefore no integer as center index,\n        the center index is rounded down to the next integer.\n    alignment_to_index: string, optional\n        Can be either \"center\" or \"corner\".\n    \"\"\"\n    if position == None:\n        i, j, k = array.shape\n        position = np.array(\n            [int(np.ceil(i / 2)), int(np.ceil(j / 2)), int(np.ceil(k / 2))]\n        )\n    x = position[0]\n    y = position[1]\n    z = position[2]\n    strulen_x = structure.shape[0]\n    strulen_y = structure.shape[1]\n    strulen_z = structure.shape[2]\n    if alignment_to_index == \"center\":\n        halfxA = int(np.floor(strulen_x / 2))\n        halfxB = int(np.ceil(strulen_x / 2))\n        halfyA = int(np.floor(strulen_y / 2))\n        halfyB = int(np.ceil(strulen_y / 2))\n        halfzA = int(np.floor(strulen_z / 2))\n        halfzB = int(np.ceil(strulen_z / 2))\n        array[\n            x - halfxA : x + halfxB, y - halfyA : y + halfyB, z - halfzA : z + halfzB\n        ] = structure\n    if alignment_to_index == \"corner\":\n        array[x : x + strulen_x, y : y + strulen_y, z : z + strulen_z] = structure\n\n    return array"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_002_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_002_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = scipy.ndimage.generate_binary_structure(3, 1)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_003_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_003_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = scipy.ndimage.generate_binary_structure(3, 2)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_004_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_004_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = scipy.ndimage.generate_binary_structure(3, 3)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_005_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_005_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = cube(5)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_006_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_006_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = octahedron(3)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_007_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_007_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "arrray = ball(3)\nplot_voxels(arrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_008_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_008_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "import matplotlib.pyplot as plt\nimport numpy as np\n\ngrids = 2\nboxs = 5\n\nvoxelarray = np.zeros((boxs * grids, boxs * grids, boxs * grids))\n\ni = 1\nfor xi in range(0, 2):\n    for yi in range(0, 2):\n        for zi in range(0, 2):\n            voxelarray[\n                xi * boxs : xi * boxs + boxs,\n                yi * boxs : yi * boxs + boxs,\n                zi * boxs : zi * boxs + boxs,\n            ] = i\n            i += 1\n\nvoxelarray = np.uint8(voxelarray * 255 / i)\n\nplot_voxels(voxelarray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_3D_Arrays_009_Normal.png",
+      "image_path": "gallery_assets/Numpy_3D_Arrays_009_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "voxelarray = data.binary_blobs(length=110, volume_fraction=0.6, n_dim=3, seed=9)\nvoxelarray = voxelarray[90:, 90:, 90:]\n# plt.imshow(voxelarray[:,:,3])\nplot_voxels(voxelarray, linewidth=0.1)"
@@ -57,49 +57,49 @@
   ],
   "Numpy Operations Along Axis": [
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_001_Header.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_001_Header.png",
       "celltype": "Header",
       "css": "border: 3px solid #ED6A5A;height: 150px; width: auto;",
       "code": "import matplotlib.pyplot as plt\nimport numpy as np\nimport scipy.ndimage\n\n\ndef plot_voxels(varray, ax=None, title=None, linewidth=0.8, aspect=None):\n\n    if ax == None:\n        fig = plt.figure(figsize=(16 / 2, 9 / 2))\n        ax = fig.add_subplot(1, 1, 1, projection=\"3d\")\n    ax.view_init(30, 200)\n    colors = cmap(varray)\n    ax.voxels(varray, facecolors=colors, edgecolor=\"black\", linewidth=linewidth)\n    ax.axis(\"off\")\n    if aspect:\n        ax.set_box_aspect(aspect=aspect)\n    if title:\n        ax.set_title(title, fontsize=30)\n\n\ncmap = plt.get_cmap(\"YlGnBu\")"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_002_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_002_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "voxelarrray = np.uint8(scipy.ndimage.generate_binary_structure(3, 1))\nvoxelarrray[0, 1, 1] = 100\nvoxelarrray[1, 1, 2] = 200\nplot_voxels(voxelarrray)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_003_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_003_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "plot_voxels(voxelarrray.swapaxes(0, 1))"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_004_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_004_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "plot_voxels(voxelarrray.swapaxes(2, 1))"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_005_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_005_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "stacked_array = np.concatenate((voxelarrray, voxelarrray), axis=0)\nplot_voxels(stacked_array, aspect=stacked_array.shape)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_006_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_006_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "stacked_array = np.concatenate((voxelarrray, voxelarrray), axis=1)\nplot_voxels(stacked_array, aspect=stacked_array.shape)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_007_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_007_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "stacked_array = np.concatenate((voxelarrray, voxelarrray), axis=2)\nplot_voxels(stacked_array, aspect=stacked_array.shape)"
     },
     {
-      "image_path": "gallery_assets_4_3DArray/Numpy_Operations_Along_Axis_008_Normal.png",
+      "image_path": "gallery_assets/Numpy_Operations_Along_Axis_008_Normal.png",
       "celltype": "Normal",
       "css": "border: 3px solid #007AB8;height: 150px; width: auto;",
       "code": "stacked_array = np.concatenate((voxelarrray, voxelarrray, voxelarrray), axis=2)\nplot_voxels(stacked_array, aspect=stacked_array.shape)"
